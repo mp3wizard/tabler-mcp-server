@@ -2,7 +2,7 @@
 
 > **MCP server for [Tabler.io](https://tabler.io)** — bring 5,000+ Tabler icons, the full UI component catalogue, page layouts, themes and live documentation into Claude, Cursor, and any MCP-compatible AI assistant.
 
-[![CI](https://github.com/MaFady/tabler-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/MaFady/tabler-mcp-server/actions/workflows/ci.yml)
+[![CI](https://github.com/mp3wizard/tabler-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/mp3wizard/tabler-mcp-server/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Tabler](https://img.shields.io/badge/Tabler-1.4.0-066fd1.svg)](https://tabler.io)
 [![MCP](https://img.shields.io/badge/Model_Context_Protocol-compatible-blueviolet.svg)](https://modelcontextprotocol.io)
@@ -51,7 +51,7 @@ Requires **Node.js ≥ 18**.
 ### Claude Code
 
 ```bash
-claude mcp add tabler -- npx -y tabler-mcp-server
+claude mcp add tabler -- npx -y @mp3wizard/tabler-mcp-server@latest
 ```
 
 ### Claude Desktop
@@ -63,7 +63,7 @@ Add to `claude_desktop_config.json` (Settings → Developer → Edit Config):
   "mcpServers": {
     "tabler": {
       "command": "npx",
-      "args": ["-y", "tabler-mcp-server"]
+      "args": ["-y", "@mp3wizard/tabler-mcp-server@latest"]
     }
   }
 }
@@ -76,7 +76,7 @@ Add to `claude_desktop_config.json` (Settings → Developer → Edit Config):
   "mcpServers": {
     "tabler": {
       "command": "npx",
-      "args": ["-y", "tabler-mcp-server"]
+      "args": ["-y", "@mp3wizard/tabler-mcp-server@latest"]
     }
   }
 }
@@ -87,13 +87,13 @@ Add to `claude_desktop_config.json` (Settings → Developer → Edit Config):
 ChatGPT connectors require a remote server. Expose this stdio server over HTTP with a gateway, e.g.:
 
 ```bash
-npx -y supergateway --stdio "npx -y tabler-mcp-server" --port 8000
+npx -y supergateway --stdio "npx -y @mp3wizard/tabler-mcp-server@latest" --port 8000
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/MaFady/tabler-mcp-server.git
+git clone https://github.com/mp3wizard/tabler-mcp-server.git
 cd tabler-mcp-server
 npm install && npm run build
 node dist/index.js   # stdio MCP server
@@ -172,7 +172,7 @@ La recherche d'icônes et les snippets fonctionnent **entièrement hors-ligne** 
   "mcpServers": {
     "tabler": {
       "command": "npx",
-      "args": ["-y", "tabler-mcp-server"]
+      "args": ["-y", "@mp3wizard/tabler-mcp-server@latest"]
     }
   }
 }

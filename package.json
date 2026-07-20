@@ -1,6 +1,6 @@
 {
-  "name": "tabler-mcp-server",
-  "version": "1.0.1",
+  "name": "@mp3wizard/tabler-mcp-server",
+  "version": "1.0.2",
   "mcpName": "io.github.MaFady/tabler-mcp-server",
   "description": "MCP server for Tabler.io — search 6,000+ Tabler icons, get UI components, page layouts, themes and docs for AI assistants (Claude, ChatGPT, Cursor...)",
   "type": "module",
@@ -40,12 +40,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MaFady/tabler-mcp-server.git"
+    "url": "git+https://github.com/mp3wizard/tabler-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/MaFady/tabler-mcp-server/issues"
+    "url": "https://github.com/mp3wizard/tabler-mcp-server/issues"
   },
-  "homepage": "https://github.com/MaFady/tabler-mcp-server#readme",
+  "homepage": "https://github.com/mp3wizard/tabler-mcp-server#readme",
   "engines": {
     "node": ">=18"
   },
