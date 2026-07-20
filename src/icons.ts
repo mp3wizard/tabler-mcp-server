@@ -8,6 +8,8 @@ import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 const require = createRequire(import.meta.url);
+const ICON_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const SAFE_COLOR_PATTERN = /^(?:currentColor|#[0-9a-f]{3,8}|[a-z]{1,32}|var\(--[a-z0-9_-]+\))$/i;
 
 export type IconStyle = "outline" | "filled";
 
@@ -116,9 +118,25 @@ export interface GetSvgOptions {
   color?: string;
 }
 
+function normalizeIconName(name: string): string {
+  const normalized = name.trim().toLowerCase();
+  if (!ICON_NAME_PATTERN.test(normalized)) {
+    throw new Error("Icon name must contain only lowercase letters, numbers, and hyphens.");
+  }
+  return normalized;
+}
+
+function assertSafeColor(color: string | undefined): void {
+  if (color !== undefined && !SAFE_COLOR_PATTERN.test(color)) {
+    throw new Error("Color must be a named color, hex color, currentColor, or CSS variable.");
+  }
+}
+
 /** Read the raw SVG for an icon and apply size / stroke / color customizations. */
 export function getIconSvg(name: string, style: IconStyle, opts: GetSvgOptions = {}): string {
-  const file = join(getIconsDir(), "icons", style, `${name.trim().toLowerCase()}.svg`);
+  const iconName = normalizeIconName(name);
+  assertSafeColor(opts.color);
+  const file = join(getIconsDir(), "icons", style, `${iconName}.svg`);
   if (!existsSync(file)) {
     throw new Error(
       `Icon "${name}" not found in style "${style}". Use search_icons to find valid names, or try the other style.`
@@ -158,7 +176,8 @@ export function renderIcon(
   format: IconFormat,
   opts: GetSvgOptions = {}
 ): string {
-  const iconName = name.trim().toLowerCase();
+  const iconName = normalizeIconName(name);
+  assertSafeColor(opts.color);
 
   switch (format) {
     case "svg":

@@ -5,7 +5,7 @@ import { components, findComponent, searchComponents } from "../src/data/compone
 import { layouts, findLayout } from "../src/data/layouts.js";
 import { palette, themeColors } from "../src/data/colors.js";
 import { buildHtmlDocument } from "../src/template.js";
-import { htmlToText } from "../src/docs.js";
+import { getDocsPage, htmlToText } from "../src/docs.js";
 import { createServer } from "../src/server.js";
 import { CDN } from "../src/version.js";
 
@@ -48,6 +48,12 @@ describe("icons", () => {
 
   it("throws a helpful error for unknown icons", () => {
     expect(() => getIconSvg("definitely-not-an-icon", "outline")).toThrow(/not found/);
+  });
+
+  it("rejects traversal and attribute injection in icon parameters", () => {
+    expect(() => getIconSvg("../../outside", "outline")).toThrow(/only lowercase letters/);
+    expect(() => getIconSvg("heart", "outline", { color: 'red" onload="alert(1)' })).toThrow(/Color must be/);
+    expect(() => renderIcon("heart", "outline", "react", { color: 'red" onload="alert(1)' })).toThrow(/Color must be/);
   });
 
   it("generates correct React component names", () => {
@@ -149,6 +155,10 @@ describe("docs html-to-text", () => {
     expect(out).toContain("Hello world");
     expect(out).toContain("<div>");
     expect(out).not.toContain("bad()");
+  });
+
+  it("rejects non-HTTPS documentation URLs before fetching", async () => {
+    await expect(getDocsPage("http://docs.tabler.io/ui/components/modals")).rejects.toThrow(/Only tabler.io/);
   });
 });
 

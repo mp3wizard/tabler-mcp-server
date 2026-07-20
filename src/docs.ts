@@ -69,11 +69,12 @@ export async function getDocsPage(urlOrPath: string): Promise<string> {
     url = `${DOCS_BASE}/${url.replace(/^\/+/, "")}`;
   }
   const parsed = new URL(url);
-  if (parsed.hostname !== "docs.tabler.io" && parsed.hostname !== "tabler.io") {
+  if (parsed.protocol !== "https:" || (parsed.hostname !== "docs.tabler.io" && parsed.hostname !== "tabler.io")) {
     throw new Error("Only tabler.io / docs.tabler.io pages can be fetched by this tool.");
   }
 
-  const res = await fetch(url, { signal: AbortSignal.timeout(15_000) });
+  // Do not let an allowlisted URL pivot to an arbitrary host through redirects.
+  const res = await fetch(url, { signal: AbortSignal.timeout(15_000), redirect: "error" });
   if (!res.ok) throw new Error(`Failed to fetch ${url} (HTTP ${res.status}).`);
   const html = await res.text();
   return htmlToText(html);
